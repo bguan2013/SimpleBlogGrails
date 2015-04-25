@@ -6,14 +6,13 @@ class BlogController {
 
     def viewblog(){
 
-    	String loggedUser = session["loggedUser"]	
+    	String loggedUser = session["loggedUser"]
     	if(loggedUser == "" || loggedUser == null){
     		loggedUser = "unknown"
     	}
-        [username:loggedUser]
+        def blogs = Blog.getAll().reverse()
+        render(view: 'viewblog', model:[username:loggedUser, blogs:blogs])
         
-        def blogs = Blog.getAll()
-        [list: blogs]
 
     }
 
@@ -22,7 +21,7 @@ class BlogController {
     	String loggedUser = session["loggedUser"]	
     	if(loggedUser == "" || loggedUser == null){
 
-    		redirect(action: viewblog)
+    		redirect(action: 'viewblog')
     		
     	}
         [username:loggedUser]
@@ -36,8 +35,9 @@ class BlogController {
         if(title != "" && content != ""){
             new Blog(title: title, content: content, createTime: new Date(), username: session["loggedUser"]).save()
         }
-
+        redirect(action: 'viewblog')
         
     }
+
 
 }

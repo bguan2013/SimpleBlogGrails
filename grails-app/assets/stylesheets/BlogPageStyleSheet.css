@@ -211,19 +211,32 @@ nav ul li:hover > ul{
 
 	
 
-#post-list li{
+#post-list>li{
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	border: 1px solid #33ccff;
+	border-radius: 20px;
+	-moz-border-radius: 20px;
+	-webkit-border-radius: 20px;
+	-o-border-radius: 20px;
 	z-index: 100;
 	list-style: none;
-	padding: 50px;
+	padding: 10px 50px 20px;
 	position: relative;
 	background-color: white;
 	color: black;
 	margin: 0 auto;
 	margin-top: 3%;
 	width: 60%;
-	height: 120px;
+	min-height: 200px;
 	
 }
+
+/*#post-list li div{
+	position: relative;
+	margin: 0 auto;
+	display: inline-block;
+}*/
 
 #first-post{
 
@@ -247,3 +260,58 @@ nav ul li:hover > ul{
 
 }
 
+.comment{
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	background-color: transparent;
+	border: 1px solid #33ccff;
+	border-radius: 5px;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	-o-border-radius: 5px;
+	width: 100%;
+	height: 20px;
+
+}
+
+.comment_button{
+
+		margin: 5px 0px;
+		-webkit-appearance: none;
+		-moz-appearance: none;
+		background-color: transparent;
+		color: #33ccff;
+		border: 1px solid #33ccff;
+		border-radius: 5px;
+		-moz-border-radius: 5px;
+		-webkit-border-radius: 5px;
+		-o-border-radius: 5px;
+		height: 25px;
+		width: 65px;
+		font-family: helvetica neue, blogFont, arial;
+		font-size: 12px;
+		font-weight: 100;
+
+}
+
+#comments{
+
+	font-family: helvetica neue, arial;
+	font-size: 12px;
+	font-weight: 100;
+}
+
+.comment_tag{
+
+	font-family: helvetica neue, arial;
+	/*font-size: 12px;
+	font-weight: 100;*/
+	color: #33ccff;
+
+	
+}
+
+.comment_area li{
+	color: black;
+	min-height: 25px;
+}

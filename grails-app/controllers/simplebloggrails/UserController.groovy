@@ -6,6 +6,12 @@ class UserController {
         
     }
 
+    def logout(){
+
+        session.invalidate()
+        redirect(controller:'user', action:'login')
+    }
+
     def login(){
 
     	String loggedUser = session["loggedUser"]
@@ -17,8 +23,8 @@ class UserController {
             String password = params["password"]
 
 
-            if（username == null || password == null）{
-                [notification: ""]
+            if(username == null || password == null){
+                [notification: null]
             }
 
             else if(username == "" || password == ""){
@@ -29,20 +35,20 @@ class UserController {
                 [notification:notification]
             }
             else{
-                
-                if(User.findByUsername(username) == null){
-                    notification = "This user doesn't exsit!"
+                User temp = User.findByUsername(username)
+                if(temp == null){
+                    notification = "This user doesn't exist!"
                     [notification:notification]
                 }
                 else{
-                    if(User.findByPassword(password) == null){
+                    if(temp.password != password){
                         notification = "Wrong password!"
                         [notification:notification]
                     }
                     else{
                         //Passed identification check
                         session["loggedUser"] = username
-                        redirect(controller: BlogController, action: viewblog)
+                        redirect(controller: 'blog', action: 'viewblog')
                     }
 
                 }
@@ -51,7 +57,7 @@ class UserController {
     	}
     	else{
 
-            redirect(controller: BlogController, action: viewblog)
+            redirect(controller: 'blog', action: 'viewblog')
     		
     	}
     }
@@ -66,8 +72,8 @@ class UserController {
             String username = params["user_name"]
             String password = params["password"]
 
-            if（username == null || password == null）{
-                [notification: ""]
+            if(username == null || password == null){
+                [notification: null]
             }
 
             else if(username == "" || password == ""){
@@ -82,8 +88,9 @@ class UserController {
                 
                 if(User.findByUsername(username) == null){
                     
+                    new User(username: username, password: password).save()
                     session["loggedUser"] = username 
-                    redirect(controller: BlogController, action: viewblog)
+                    redirect(controller: 'blog', action: 'viewblog')
 
                     
                 }
@@ -97,7 +104,7 @@ class UserController {
         }
         else{
 
-            redirect(controller: BlogController, action: viewblog)
+            redirect(controller: 'blog', action: 'viewblog')
             
         }
 

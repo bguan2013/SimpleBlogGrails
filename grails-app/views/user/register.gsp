@@ -10,7 +10,7 @@
 		<div id = "background-image"></div>
 		<div id = "box">
 
-		<form action = "@routes.Application.register()" method = "POST">
+		<form action = "${createLink(action: 'register')}" method = "POST">
 			<p>First time ?</p>
 			<input id = "face-icon" type = "button" onclick = "location.href = 'http://cs.oswego.edu/~alex'">
 			<br>

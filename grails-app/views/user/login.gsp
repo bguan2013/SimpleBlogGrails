@@ -11,7 +11,7 @@
 		<div id = "background-image"></div>
 		<div id = "box">
 
-		<form action = "@routes.Application.login()" method = "POST">
+		<form action = "${createLink(action: 'login')}" method = "POST">
 			<p>Simple Blog</p>
 
 			<input id = "face-icon" type = "button" onclick = "location.href = 'http://cs.oswego.edu/~alex'">

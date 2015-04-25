@@ -15,9 +15,11 @@ body{
 }
 
  .button{
-    
+    font-family: helvetica neue;
+    font-weight: 100;
     background-color: transparent;
     font-size: 18pt;
+    color: #33ccff;
     -webkit-appearance: none;
     border: 1px solid #33ccff;
     border-radius: 10px;

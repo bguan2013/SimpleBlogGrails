@@ -1,21 +1,32 @@
 
 
-<!DOCTYPE html>
-
 <html>
 	<head>
 		<asset:stylesheet href="BlogPageStyleSheet.css"/>
 		<title>Blog Page</title>
 		<script type="text/javascript">
 			var xmlHttp1 = new XMLHttpRequest();
-			function saveComment(comment){
-				xmlHttp1.open("Post", "CommentBlog", true);
-				xmlHttp1.onreadystatechange = displayComment;
-				xmlHttp1.send(comment);
+			var gComment = "";
+			var gCommentAreaNode;
+			function saveComment(comment, username, blogtitle, comment_area){
+
+				gComment = comment;
+				gCommentAreaNode = comment_area;
+				var sendComment = "comment=" + comment + "&author=" + username + "&blogtitle=" + blogtitle;		
+
+				xmlHttp1.open("Post", "/comment/savecomment?" + sendComment, true);		
+				xmlHttp1.onreadystatechange = displayComment;	
+				xmlHttp1.send();
 			}
 			function displayComment(){
 				if(xmlHttp1.readyState == 4 && xmlHttp1.status == 200){
-					
+					console.log(xmlHttp1.responseText);
+					var nodeP = document.createElement("li");
+					nodeP.appendChild(document.createTextNode(xmlHttp1.responseText));
+					gCommentAreaNode.appendChild(nodeP);
+				}
+				else{
+					console.log("Ready State is: " + xmlHttp1.readyState + " Status is: " + xmlHttp1.status);
 				}
 			}
 			function getNewBlogs(index){
@@ -28,9 +39,11 @@
 
 
 				}
-				xmlHttp2.open("Post","NewBlog",true);
+				xmlHttp2.open("Post","/blog/oldblogs",true);
 				xmlHttp2.send(index);
 			}
+
+			
 
 		</script>
 	</head>
@@ -42,7 +55,7 @@
 			<a href="${createLink(controller: 'rss', action: 'rssnews')}" id = "rss_button"></a>
 			
 
-			<div>${username}</div>
+			<div id = "username">${username}</div>
 		
 			
 			<nav>
@@ -66,7 +79,7 @@
 		<div class = "post">
 			<ul id = "post-list">
 				
-					<g:if test="${blogs == null}">
+					<g:if test="${blogs.size() == 0}">
 					
 							<li id = "first-post">No post</li>
 							
@@ -77,18 +90,49 @@
 
 					   		   <g:if test="${blog == blogs.first()}">
 									<li id = "first-post">
-										<p>${blog.title}</p>
-										<p>${blog.content}</p>
-										<p>${blog.createTime}</p>
-										<p>${blog.username}</p>
+										<p name = "blog_title">${blog.title}</p>
+										<p name = "blog_content">${blog.content}</p>
+										<p name = "blog_time">${blog.createTime}</p>
+										<p name = "blog_user">${blog.username}</p>
+										<br>
+										<p class = "comment_tag">Comments</p>
+										<ul class = "comment_area" name = "comment_area">
+											
+											<g:each var = "comment" in="${blog.comments}">
+												<li>${comment.comment}</li>
+											</g:each>
+										</ul>
+										<br>
+										<form>
+											<input class = "comment" type = "text" name = "comment">
+											
+											<input class = "comment_button" type = "button" value = "comment" onclick="saveComment(this.form.comment.value, document.getElementById('username').innerHTML,  this.form.parentNode.children['blog_title'].innerHTML, this.form.parentNode.children['comment_area']); this.form.comment.value = ''">
+
+											
+										</form>
 									</li>
 								</g:if>
 								<g:else>
 									<li id = "">
-								    	<p>${blog.title}</p>
-										<p>${blog.content}</p>
-										<p>${blog.createTime}</p>
-										<p>${blog.username}</p>
+								    	<p name = "blog_title">${blog.title}</p>
+										<p name = "blog_content">${blog.content}</p>
+										<p name = "blog_time">${blog.createTime}</p>
+										<p name = "blog_user">${blog.username}</p>
+										<br>
+										<p class = "comment_tag">Comments</p>
+										<ul class = "comment_area" name = "comment_area">
+											
+											<g:each var = "comment" in="${blog.comments}">
+												<li>${comment.comment}</li>
+											</g:each>
+										</ul>
+										<br>
+										<form>
+											<input class = "comment" name = "comment" type = "text">
+											<input class = "comment_button" type = "button" value = "comment" onclick="saveComment(this.form.comment.value, document.getElementById('username').innerHTML, this.form.parentNode.children['blog_title'].innerHTML, this.form.parentNode.children['comment_area']); this.form.comment.value = ''">
+
+											
+										</form>
 									</li>
 								</g:else>
 						</g:each>
@@ -97,6 +141,23 @@
 				
 			</ul>
 		</div>
+
+		<script type="text/javascript">
+			function test(element){
+
+					if(element == null){
+						console.log("Doesn't exist");
+					}
+					else{
+						for(node in element.children){
+							console.log(node);
+						}
+						console.log(element.children["comment_area"].innerHTML);
+
+					}
+
+			}
+		</script>
 	</body>
 
 </html>
