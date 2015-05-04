@@ -142,22 +142,7 @@
 			</ul>
 		</div>
 
-		<script type="text/javascript">
-			function test(element){
-
-					if(element == null){
-						console.log("Doesn't exist");
-					}
-					else{
-						for(node in element.children){
-							console.log(node);
-						}
-						console.log(element.children["comment_area"].innerHTML);
-
-					}
-
-			}
-		</script>
+		
 	</body>
 
 </html>

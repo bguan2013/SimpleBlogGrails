@@ -23,9 +23,9 @@
     		</form>
 		</div>
 
-		<!--video autoplay loop id = "bgvid">
-			<source src = "Looping_Clouds.mp4">
-		</video-->
+		<video autoplay loop id = "bgvid" poster="${resource(dir: 'images', file: 'dandelion.jpg')}">
+			<link type ="video/mp4" src = "${resource(dir: 'videos', file: 'Looping_Clouds.mp4')}">
+		</video>
 
 		<footer id= "footer">
 			<p>

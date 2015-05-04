@@ -5,7 +5,12 @@ class SettingController {
     def index() { }
 
     def setting(){
-
+        if(session["loggedUser"] == null){
+            redirect(controller: 'user', action: 'login')
+        }
+        else{
+            render(view: 'setting')
+        }
 
 
     }
@@ -28,14 +33,14 @@ class SettingController {
     			redirect(controller:'blog', action:'viewblog')
     		}
     		else{
-    			[notification:"New passwords do not match!"]
-    			redirect(action:'setting')
+    			
+    			redirect(action:'setting', params:[notification:"New passwords do not match!"])
     		}
     	}
 
     	else{
-    		[notification:"Old Password Wrong!"]
-    		redirect(action:'setting')
+    		
+    		redirect(action:'setting', params: [notification:"Old Password Wrong!"])
     	}
 
 

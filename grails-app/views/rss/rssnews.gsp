@@ -1,20 +1,20 @@
-@(rssnews : Array[Rss])(username : String)
+
 
 <!doctype html>
 
 <html>
 	<head>
-		<link rel="stylesheet" type="text/css" href="@routes.Assets.at("stylesheets/RSSNewsPageStyleSheet.css")">
+		<asset:stylesheet href="RSSNewsPageStyleSheet.css"/>
 		<title>News Page</title>
 	</head>
 	<body>
-		<img id = "header_background" src="@routes.Assets.at("images/waterDrop.jpg")">
+		<g:img id = "header_background" dir = "images" file = "waterDrop.jpg"/>
 		<div class = "header">
-			<a href="@routes.Application.writeblog()" id = "write_button"></a>
-			<a href="@routes.Application.viewblog()" id = "blog_button"></a>
+			<a href="${createLink(controller: 'blog', action: 'writeblog')}" id = "write_button"></a>
+			<a href="${createLink(controller: 'blog', action: 'viewblog')}" id = "blog_button"></a>
 		
 
-			    <div>@username</div>
+			    <div>${username}</div>
 
 			
 			<nav>
@@ -23,12 +23,12 @@
 					<a id = "icon" href=""></a>
 				<ul>
 					<li>
-						<a href="@routes.Application.setting()"> Setting </a>
-					</li>
-					
-					<li>
-						<a href="@routes.Application.logout()"> Logout </a>
-					</li>
+        				<a href="${createLink(controller:'setting', action:'setting')}"> Setting </a>
+        			</li>
+        					
+        			<li>
+        				<a href="${createLink(controller:'user', action:'logout')}"> Logout </a>
+        			</li>
 				</ul>
 				</li>
 				</ul>
@@ -37,32 +37,34 @@
 		</div>
 		<div class = "post">
 			<ul id = "post-list">
-			
-			    @if(rssnews.length == 0){
-					
-							<li id = "first-post">No post</li>
-							
-					}else{
+				
+				<g:if test="${rssList.size() == 0}">
+					<li id = "first-post">No post</li>
+				</g:if>
+			    
+			    <g:else>
 
-						@for(i <- 0 until rssnews.length){
+						<g:each var="rss" in="${rssList}">
 
-					   		   @if(i == 0){
+					   		   <g:if test="${rss == rssList.first()}">
 									<li id = "first-post">
-										<p>@rssnews(i).rssTitle</p>
-										<p>@rssnews(i).rssDescription</p>
-										<p>@rssnews(i).rssDate</p>
-										<p>@rssnews(i).rssAuthor</p>
+										<p>${rss.rssTitle}</p>
+										<p>${raw(rss.rssDescription)}</p>
+										<p>${rss.rssDate}</p>
+										<p>${rss.rssAuthor}</p>
 									</li>
-								}else{
+								</g:if>
+								<g:else>
 									<li id = "">
-										<p>@rssnews(i).rssTitle</p>
-										<p>@rssnews(i).rssDescription</p>
-										<p>@rssnews(i).rssDate</p>
-										<p>@rssnews(i).rssAuthor</p>
+										<p>${rss.rssTitle}</p>
+										<p>${raw(rss.rssDescription)}</p>
+										<p>${rss.rssDate}</p>
+										<p>${rss.rssAuthor}</p>
 									</li>
-								}
-						}
-					}
+								</g:else>
+						
+						</g:each>					
+				</g:else>
 			
 			</ul>
 		</div>
